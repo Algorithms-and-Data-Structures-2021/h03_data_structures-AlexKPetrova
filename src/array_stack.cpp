@@ -7,37 +7,47 @@
 namespace itis {
 
 ArrayStack::ArrayStack(int capacity) {
-  if (capacity <= 0) {
-    throw std::invalid_argument("initial capacity must be greater than zero");
-  }
-
-  // TODO: напишите здесь свой код ...
+    if (capacity <= 0) {
+        throw std::invalid_argument("initial capacity must be greater than zero");
+    }
+    data_ = new Element[capacity];
+    capacity_ = capacity;
 }
 
 ArrayStack::~ArrayStack() {
-  // TODO: напишите здесь свой код ...
+    delete[] data_;
+    data_ = nullptr;
+    size_ = 0;
+    capacity_ = 0;
 }
 
 void ArrayStack::Push(Element e) {
-  // TODO: напишите здесь свой код ...
+    if(size_ == capacity_){
+        resize(capacity_+kCapacityGrowthCoefficient);
+    }
+    data_[size_] = e;
+    size_++;
 }
 
 void ArrayStack::Pop() {
-  if (size_ == 0) {
-    throw std::logic_error("cannot pop out from empty stack");
-  }
-
-  // TODO: напишите здесь свой код ...
+    if (size_ == 0) {
+        throw std::logic_error("cannot pop out from empty stack");
+    }
+    data_[size_] = Element::UNDEFINED;
+    size_--;
 }
 
 void ArrayStack::Clear() {
-  // TODO: напишите здесь свой код ...
+    while(size_>0) Pop();
 }
 
 void ArrayStack::resize(int new_capacity) {
-  assert(new_capacity > size_);
-
-  // TODO: напишите здесь свой код ...
+    assert(new_capacity > size_);
+    auto new_capacity_stack = new Element[new_capacity];
+    std::copy(data_, data_+size_, new_capacity_stack);
+    delete[] data_;
+    data_ = new_capacity_stack;
+    capacity_ = new_capacity;
 }
 
 // === РЕАЛИЗОВАНО ===
