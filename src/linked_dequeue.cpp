@@ -5,31 +5,75 @@
 namespace itis {
 
 void LinkedDequeue::Enqueue(Element e) {
-  // TODO: напишите здесь свой код ...
+    auto node = new DoublyNode(e, back_, nullptr);
+    if(size_ == 0) {
+        front_ = node;
+        back_ = front_;
+
+    }
+    else{
+        back_ ->next = node;
+        back_ = back_->next;
+    }
+    size_++;
 }
 
 void LinkedDequeue::EnqueueFront(Element e) {
-  // TODO: напишите здесь свой код ...
+    auto node = new DoublyNode(e, back_, nullptr);
+    if(size_ == 0) {
+        front_ = node;
+        back_ = front_;
+    }
+    else{
+        front_->previous = node;
+        front_ = front_->previous;
+    }
+    size_++;
 }
 
 void LinkedDequeue::Dequeue() {
-  if (size_ == 0) {
-    throw std::logic_error("cannot not dequeue from empty queue");
-  }
+    if (size_ == 0) {
+        throw std::logic_error("cannot not dequeue from empty queue");
+    }
 
-  // TODO: напишите здесь свой код ...
+    if (size_ == 1) {
+        delete front_;
+        front_ = nullptr;
+        back_ = nullptr;
+    }
+    if (size_ == 2) {
+        delete front_;
+        front_ = back_;
+    }
+    if (size_ > 2) {
+        DoublyNode *second_node = front_->next;
+        delete front_;
+        front_ = second_node;
+    }
+
+    size_--;
 }
 
 void LinkedDequeue::DequeueBack() {
-  if (size_ == 0) {
-    throw std::logic_error("cannot not dequeue from empty queue");
-  }
-
-  // TODO: напишите здесь свой код ...
+    if (size_ == 0) {
+        throw std::logic_error("cannot not dequeue from empty queue");
+    }
+    DoublyNode *delete_node = back_;
+    if(size_ == 1){
+        delete delete_node;
+        front_ = nullptr;
+        back_ = nullptr;
+    }
+    else{
+        back_ = back_->previous;
+        back_->next = nullptr;
+        delete delete_node;
+    }
+    size_--;
 }
 
 void LinkedDequeue::Clear() {
-  // TODO: напишите здесь свой код ...
+    while (size_>0) DequeueBack();
 }
 
 // === РЕАЛИЗОВАНО ===
